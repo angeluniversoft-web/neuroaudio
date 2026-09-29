@@ -1,0 +1,189 @@
+{
+ "gamma40_genus": {
+  "archivo": "audio/gamma40_genus.flac",
+  "canales": 1,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -5.2,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   4000.0
+  ],
+  "ritmo_medido_hz": 40.0,
+  "salto_union": 0.0,
+  "paso_tipico": 0.0,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 289
+ },
+ "gamma40_am": {
+  "archivo": "audio/gamma40_am.flac",
+  "canales": 1,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -15.1,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   500.0
+  ],
+  "ritmo_medido_hz": 40.0,
+  "salto_union": 0.0,
+  "paso_tipico": 0.00266,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 292
+ },
+ "gamma40_binaural": {
+  "archivo": "audio/gamma40_binaural.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -20.2,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   200.0,
+   240.0
+  ],
+  "ritmo_medido_hz": 40.0,
+  "salto_union": 0.0032,
+  "paso_tipico": 0.00201,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 1853
+ },
+ "theta6_binaural": {
+  "archivo": "audio/theta6_binaural.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -19.4,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   197.0,
+   203.0
+  ],
+  "ritmo_medido_hz": 6.0,
+  "salto_union": 0.00412,
+  "paso_tipico": 0.00226,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 1925
+ },
+ "alfa10_binaural": {
+  "archivo": "audio/alfa10_binaural.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -19.4,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   205.0,
+   215.0
+  ],
+  "ritmo_medido_hz": 10.0,
+  "salto_union": 0.00244,
+  "paso_tipico": 0.00272,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 2001
+ },
+ "delta2_binaural_noche": {
+  "archivo": "audio/delta2_binaural_noche.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -30.0,
+  "pico_real_dbtp": -24.6,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   119.0,
+   121.0
+  ],
+  "ritmo_medido_hz": 2.0,
+  "salto_union": 3e-05,
+  "paso_tipico": 0.0004,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 1231
+ },
+ "ondas_lentas_noche": {
+  "archivo": "audio/ondas_lentas_noche.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -30.0,
+  "pico_real_dbtp": -6.9,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   17.85,
+   20.85
+  ],
+  "ritmo_medido_hz": 0.8,
+  "salto_union": 0.00229,
+  "paso_tipico": 0.00198,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 1922
+ },
+ "tono528": {
+  "archivo": "audio/tono528.flac",
+  "canales": 1,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -17.5,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   528.0
+  ],
+  "ritmo_medido_hz": null,
+  "salto_union": 0.00726,
+  "paso_tipico": 0.00491,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 291
+ },
+ "theta4_binaural_presueno": {
+  "archivo": "audio/theta4_binaural_presueno.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -27.0,
+  "pico_real_dbtp": -23.4,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   298.0,
+   302.0
+  ],
+  "ritmo_medido_hz": 4.0,
+  "salto_union": 0.00146,
+  "paso_tipico": 0.00183,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 1846
+ },
+ "smr13_binaural": {
+  "archivo": "audio/smr13_binaural.flac",
+  "canales": 2,
+  "fs": 48000,
+  "bits": 16,
+  "duracion_bucle_s": 20,
+  "lufs": -23.0,
+  "pico_real_dbtp": -16.8,
+  "dc": 0.0,
+  "frecuencias_pico_hz": [
+   173.5,
+   186.5
+  ],
+  "ritmo_medido_hz": 13.0,
+  "salto_union": 0.01324,
+  "paso_tipico": 0.00757,
+  "verificacion_bit_a_bit": true,
+  "tamano_kb": 2358
+ }
+}

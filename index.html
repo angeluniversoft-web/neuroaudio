@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plan Neuro-Audio BDNF</title>
+<meta name="theme-color" content="#151A2C">
+<meta name="description" content="Plan de escucha de frecuencias con seguimiento cognitivo">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF0F6; --surface:#FFFFFF; --surface2:#F6F7FB; --line:#D6DAE6; --text:#1C2033; --muted:#5B6178;
+  --amber:#B06F12; --amber-soft:#F6E3C2; --teal:#1C8577; --teal-soft:#CDEBE6; --rose:#B4435A;
+  --head:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151A2C; --surface:#1F2540; --surface2:#262D4B; --line:#343C5E; --text:#ECE8F4; --muted:#A0A5C2;
+    --amber:#F0B45A; --amber-soft:#3E3423; --teal:#6FCBBE; --teal-soft:#1D3B3F; --rose:#EE8A9E;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151A2C; --surface:#1F2540; --surface2:#262D4B; --line:#343C5E; --text:#ECE8F4; --muted:#A0A5C2;
+  --amber:#F0B45A; --amber-soft:#3E3423; --teal:#6FCBBE; --teal-soft:#1D3B3F; --rose:#EE8A9E;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.15;margin:0}
+h1{font-size:1.9rem;letter-spacing:-0.01em}
+h2{font-size:1.35rem}
+h3{font-size:1.05rem}
+p{margin:.4em 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:18px 16px 110px}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin:14px 0}
+.btn{border:0;border-radius:999px;padding:11px 18px;background:var(--teal);color:#fff;font-weight:600}
+:root[data-theme="dark"] .btn{color:#10201E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn{color:#10201E}}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.amber{background:var(--amber);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.amber{color:#2A1D05}}
+:root[data-theme="dark"] .btn.amber{color:#2A1D05}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.chip{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:8px 14px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+label.field{display:block;margin:12px 0 4px;font-weight:600;font-size:.92rem}
+input[type=number],input[type=date],input[type=time],input[type=text],select,textarea{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font:inherit}
+textarea{min-height:64px;resize:vertical}
+input[type=range]{width:100%;accent-color:var(--teal)}
+
+/* Hero */
+.hero{padding:6px 2px 4px}
+.hero .day{font-family:var(--head);font-size:clamp(2.6rem,11vw,4rem);font-weight:700;line-height:1;letter-spacing:-0.02em}
+.hero .day span{font-size:.38em;color:var(--muted);font-weight:500;letter-spacing:0}
+.phasebar{display:flex;height:8px;border-radius:99px;overflow:hidden;margin:14px 0 6px;background:var(--line)}
+.phasebar i{display:block;height:100%}
+.heroWave{width:100%;height:56px;display:block;margin-top:8px}
+
+/* Sessions */
+.sess{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.sess:first-of-type{border-top:0}
+.sess .slot{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--surface2);border:1px solid var(--line);font-size:1.4rem}
+.sess.done .slot{background:var(--teal-soft);border-color:var(--teal)}
+.sess.key .slot{background:var(--amber-soft);border-color:var(--amber)}
+.sess .t{font-weight:600}
+.sess.lib{grid-template-columns:auto 1fr;align-items:start}
+.sess.lib .btn{grid-column:2;justify-self:start}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--surface2);border:1px solid var(--line);color:var(--muted)}
+.tag.a{background:var(--teal-soft);border-color:transparent;color:var(--teal)}
+.tag.b{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+.tag.c{color:var(--muted)}
+.tag.d{color:var(--rose);border-color:var(--rose);background:transparent}
+
+.banner{border-radius:16px;padding:14px 16px;background:var(--amber-soft);border:1px solid var(--amber);margin:14px 0}
+
+/* Tabs */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+nav.tabs .in{display:flex;max-width:720px;width:100%}
+nav.tabs button{flex:1;background:none;border:0;padding:10px 2px 12px;font-size:.78rem;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button[aria-current="page"]{color:var(--teal)}
+
+/* Calendar grid */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.cal button{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:var(--surface2);font-size:.8rem;font-weight:600;position:relative;padding:0}
+.cal button.l1{background:color-mix(in srgb,var(--teal) 25%,var(--surface2))}
+.cal button.l2{background:color-mix(in srgb,var(--teal) 55%,var(--surface2))}
+.cal button.l3{background:var(--teal);color:#fff;border-color:var(--teal)}
+.cal button.today{outline:2px solid var(--amber);outline-offset:1px}
+.cal button.rest{border-style:dashed}
+.cal button.ev::after{content:"";position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--amber)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:4px;border:1px solid var(--line)}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface2);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-family:var(--head);font-size:1.6rem;line-height:1.1}
+.chartBox{overflow-x:auto}
+svg.chart{width:100%;height:170px;display:block}
+
+/* Player sheet */
+.sheet{position:fixed;inset:0;background:rgba(10,12,24,.55);display:none;z-index:40;align-items:flex-end;justify-content:center}
+.sheet.open{display:flex}
+.sheet .card{background:var(--surface);width:100%;max-width:720px;border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
+.scope{width:100%;height:150px;display:block;border-radius:16px;background:var(--surface2);margin:14px 0}
+.bigTime{font-family:var(--head);font-size:3rem;font-weight:700;letter-spacing:-0.02em;line-height:1}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0}
+.progress i{display:block;height:100%;background:var(--teal);width:0}
+
+/* Tests */
+.testArea{border-radius:18px;min-height:200px;display:grid;place-items:center;text-align:center;padding:20px;background:var(--surface2);user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.testArea.go{background:var(--teal);color:#fff}
+.testArea.wait{background:var(--rose);color:#fff}
+.digit{font-family:var(--head);font-size:4rem;font-weight:700}
+.list p{margin:.5em 0}
+details{border-top:1px solid var(--line);padding:10px 0}
+details summary{cursor:pointer;font-weight:600}
+.hidden{display:none!important}
+.sync{font-size:.78rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<nav class="tabs" id="tabs" aria-label="Secciones">
+  <div class="in">
+    <button data-tab="hoy" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 12c2-5 4-5 6 0s4 5 6 0 4-5 6 0"/></svg>Hoy</button>
+    <button data-tab="plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Plan</button>
+    <button data-tab="lib"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18V6M9 18V9M14 18V4M19 18v-7"/></svg>Frecuencias</button>
+    <button data-tab="eval"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Evaluar</button>
+    <button data-tab="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20h18M5 16l5-5 4 3 6-7"/></svg>Progreso</button>
+  </div>
+</nav>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="plTitle">
+  <div class="card">
+    <div class="row"><h2 id="plTitle">Sesión</h2><span class="spacer"></span><button class="btn ghost" id="plClose">Cerrar</button></div>
+    <p class="muted small" id="plSub"></p>
+    <canvas class="scope" id="scope"></canvas>
+    <div class="row"><div class="bigTime" id="plTime">15:00</div><span class="spacer"></span><span class="tag" id="plState">Listo</span></div>
+    <div class="progress"><i id="plBar"></i></div>
+    <div class="row" style="margin:14px 0">
+      <button class="btn" id="plPlay">Iniciar</button>
+      <button class="btn ghost" id="plStop" disabled>Terminar</button>
+      <span class="spacer"></span>
+    </div>
+    <label class="field" for="plVol">Volumen <span class="muted small">(bajo y cómodo; en la noche, casi imperceptible)</span></label>
+    <input type="range" id="plVol" min="0.05" max="1" step="0.05" value="0.5">
+    <p class="small muted" id="plHint"></p>
+  </div>
+</div>
+
+<div class="sheet" id="testSheet" role="dialog" aria-modal="true" aria-labelledby="tsTitle">
+  <div class="card">
+    <div class="row"><h2 id="tsTitle">Prueba</h2><span class="spacer"></span><button class="btn ghost" id="tsClose">Cerrar</button></div>
+    <div id="tsBody"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PROTOCOLOS DE FRECUENCIA
+   Nivel de evidencia:
+   A = la más sólida disponible (preclínica robusta + ensayos humanos iniciales)
+   B = mixta / moderada (metaanálisis con efectos pequeños)
+   C = preliminar
+   D = popular, sin respaldo científico
+   ============================================================ */
+const PROTOCOLS = {
+  "gamma40_genus": {name:"Gamma 40 Hz · protocolo GENUS", band:"Gamma", beat:40, tier:"A", use:"Mañana y tarde", phones:false, file:"audio/gamma40_genus.flac",
+    desc:"Réplica del estímulo del MIT (Martorell et al., Cell 2019): pulsos de 1 ms repetidos cada 25 ms. En modelos de Alzheimer redujo amiloide y tau y mejoró la memoria; solo 40 Hz tuvo efecto (8, 20 y 80 Hz no). El tono del pulso se ajustó de 10 kHz a 4 kHz porque la pérdida auditiva por edad empieza en agudos, y lo que importa es el ritmo, no el tono."},
+  "gamma40_am": {name:"Gamma 40 Hz · tono modulado", band:"Gamma", beat:40, tier:"A", use:"Adaptación y días sensibles", phones:false, file:"audio/gamma40_am.flac",
+    desc:"Tono de 500 Hz modulado al 100% a 40 Hz: el estímulo clásico con el que se mide la respuesta cerebral de 40 Hz en humanos. Más suave al oído que los pulsos; ideal para empezar."},
+  "theta6_binaural": {name:"Theta 6 Hz · binaural", band:"Theta", beat:6, tier:"B", use:"Tarde (memoria)", phones:true, file:"audio/theta6_binaural.flac",
+    desc:"197 Hz en el oído izquierdo y 203 Hz en el derecho. El ritmo theta acompaña la codificación de memoria en el hipocampo. Los metaanálisis de pulsos binaurales muestran efectos pequeños en memoria y ansiedad."},
+  "alfa10_binaural": {name:"Alfa 10 Hz · binaural", band:"Alfa", beat:10, tier:"B", use:"Tarde (bajar estrés)", phones:true, file:"audio/alfa10_binaural.flac",
+    desc:"205 / 215 Hz. Orientado a relajación. El cortisol elevado de forma crónica reduce BDNF y daña el hipocampo; bajar el estrés es una vía indirecta pero real."},
+  "gamma40_binaural": {name:"Gamma 40 Hz · binaural", band:"Gamma", beat:40, tier:"C", use:"Variación opcional", phones:true, file:"audio/gamma40_binaural.flac",
+    desc:"200 / 240 Hz. La respuesta cerebral a 40 Hz binaural es mucho más débil que a pulsos reales; por eso el plan prioriza GENUS y el tono modulado."},
+  "ondas_lentas_noche": {name:"Ondas lentas · ruido rosa pulsado", band:"Delta (sueño)", beat:0.8, tier:"C", use:"Noche (sesión clave)", phones:false, file:"audio/ondas_lentas_noche.flac",
+    desc:"Ráfagas de 50 ms de ruido rosa a 0,8 Hz, el ritmo de las ondas lentas del sueño profundo. Sincronizadas con EEG mejoran sueño profundo y memoria en laboratorio; sin EEG el efecto es menor. El sueño profundo es cuando el cerebro elimina amiloide por el sistema glinfático."},
+  "delta2_binaural_noche": {name:"Delta 2 Hz · binaural suave", band:"Delta (sueño)", beat:2, tier:"C", use:"Noche (alternativa)", phones:true, file:"audio/delta2_binaural_noche.flac",
+    desc:"119 / 121 Hz sobre ruido marrón, grabado 7 dB más bajo que las pistas diurnas. Acompaña la entrada al sueño."},
+  "smr13_binaural": {name:"SMR 13 Hz · binaural con lluvia", band:"SMR", beat:13, tier:"C", use:"Pausa del mediodía (opcional)", phones:true, file:"audio/smr13_binaural.flac",
+    desc:"173,5 / 186,5 Hz sobre un fondo tipo lluvia. Recreado con los parámetros medidos en tu archivo de Pixabay. El ritmo SMR se asocia a atención tranquila; lo que tiene respaldo es el neurofeedback SMR, no escucharlo. Uso opcional, fuera del protocolo principal."},
+  "theta4_binaural_presueno": {name:"Theta 4 Hz · binaural pre-sueño", band:"Theta (pre-sueño)", beat:4, tier:"B", use:"Antes de dormir (opcional)", phones:true, file:"audio/theta4_binaural_presueno.flac",
+    desc:"298 / 302 Hz, recreado con los parámetros medidos en tu archivo de Pixabay y grabado 4 dB más bajo que las pistas de día. Pensado para 20 minutos de relajación antes de acostarte; no sustituye la sesión nocturna."},
+  "tono528": {name:"528 Hz · tono puro", band:"Solfeggio", beat:0, tier:"D", use:"Libre", phones:false, file:"audio/tono528.flac",
+    desc:"Muy popular en internet, sin estudios sólidos sobre BDNF ni demencia. Está disponible si te agrada, pero no forma parte del plan."}
+};
+const TIER_LABEL = {A:"Evidencia más sólida", B:"Evidencia mixta", C:"Evidencia preliminar", D:"Popular, sin respaldo"};
+const TIER_CLASS = {A:"a",B:"b",C:"c",D:"d"};
+
+/* ============================================================
+   ESTADO Y PERSISTENCIA
+   ============================================================ */
+const LS_KEY = "bdnf_plan_v1";
+const NATIVE = typeof window.AndroidBridge !== "undefined";
+let S = {plan:null, sessions:{}, checkins:{}, tests:{}, updatedAt:0};
+let db=null, docRef=null, syncState="local";
+
+function loadLocal(){ try{ const r=localStorage.getItem(LS_KEY); if(r){ const o=JSON.parse(r); if(o&&typeof o==="object") S=Object.assign(S,o);} }catch(e){} }
+let saveTimer=null, saving=false, pendingSave=false;
+function save(){
+  S.updatedAt=Date.now();
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(S)); }catch(e){}
+  if(docRef){ clearTimeout(saveTimer); saveTimer=setTimeout(pushRemote, 800); }
+}
+async function pushRemote(){
+  if(!docRef) return;
+  if(saving){ pendingSave=true; return; }
+  saving=true;
+  try{ await docRef.set({json:JSON.stringify(S), updatedAt:S.updatedAt}); syncState="nube"; }
+  catch(e){ syncState="local"; }
+  saving=false; updateSync();
+  if(pendingSave){ pendingSave=false; pushRemote(); }
+}
+function updateSync(){ const el=document.getElementById("syncTag"); if(el) el.textContent = syncState==="nube" ? "Sincronizado entre tus dispositivos" : "Guardado en este dispositivo · haz respaldos en Progreso"; }
+async function initCloud(){
+  try{
+    if(!window.claude || !window.claude.use) return;
+    const [dbNs, userNs] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if(!dbNs || !userNs) return;
+    const uid = await userNs.id();
+    if(!uid) return;
+    db=dbNs; docRef = db.doc("data/users/"+uid+"/estado");
+    const snap = await docRef.get();
+    if(snap.exists){
+      const d=snap.data();
+      try{ const remote=JSON.parse(d.json); if(remote && (remote.updatedAt||0) > (S.updatedAt||0)){ S=Object.assign({plan:null,sessions:{},checkins:{},tests:{}},remote); try{localStorage.setItem(LS_KEY,JSON.stringify(S));}catch(e){} render(); } else if((S.updatedAt||0)>(remote.updatedAt||0)){ pushRemote(); } }catch(e){}
+    } else if(S.plan){ pushRemote(); }
+    syncState="nube"; updateSync();
+  }catch(e){ db=null; docRef=null; }
+}
+
+/* ============================================================
+   FECHAS Y LÓGICA DEL PLAN
+   ============================================================ */
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parseYmd=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
+const addDays=(s,n)=>{const d=parseYmd(s);d.setDate(d.getDate()+n);return ymd(d);};
+const diffDays=(a,b)=>Math.round((parseYmd(b)-parseYmd(a))/86400000);
+const todayStr=()=>ymd(new Date());
+const fmtDate=s=>parseYmd(s).toLocaleDateString("es",{weekday:"short",day:"numeric",month:"short"});
+
+function currentDay(){ if(!S.plan) return 0; return diffDays(S.plan.startDate, todayStr())+1; }
+function phaseBounds(N){ const p1=Math.min(14,Math.max(7,Math.round(N*0.15))); const p2=Math.max(p1+1,Math.round(N*0.7)); return {p1,p2}; }
+const PHASES=[
+  {id:1,name:"Adaptación",color:"var(--muted)",text:"El cerebro se acostumbra a los estímulos. Volumen bajo, sesiones más cortas por la noche."},
+  {id:2,name:"Consolidación",color:"var(--teal)",text:"Se alternan protocolos para evitar habituación. Es la fase más larga."},
+  {id:3,name:"Integración",color:"var(--amber)",text:"Se fijan los protocolos con mejor respaldo y la sesión nocturna se alarga."}
+];
+function phaseOf(d,N){ const {p1,p2}=phaseBounds(N); return d<=p1?1:(d<=p2?2:3); }
+function isRest(d,N){ return d%7===0 && d!==N; }
+function isEval(d,N){ return d===1 || d===N || (d%7===0); }
+function daySchedule(d){
+  const P=S.plan, N=P.days, ph=phaseOf(d,N), odd=d%2===1, hp=P.headphones;
+  let am, pm, sl, slMin;
+  if(ph===1){ am="gamma40_am"; pm= hp?"alfa10_binaural":"gamma40_am"; sl="ondas_lentas_noche"; slMin=Math.min(30,P.sleepMin); }
+  else if(ph===2){ am= odd?"gamma40_genus":"gamma40_am"; pm= hp?(odd?"theta6_binaural":"alfa10_binaural"):"gamma40_genus"; sl=(odd||!hp)?"ondas_lentas_noche":"delta2_binaural_noche"; slMin=Math.min(45,P.sleepMin); }
+  else { am="gamma40_genus"; pm= hp?(odd?"theta6_binaural":"gamma40_genus"):"gamma40_genus"; sl="ondas_lentas_noche"; slMin=P.sleepMin; }
+  const list=[], dm=P.dayMin||15;
+  if(!isRest(d,N)){
+    list.push({slot:"am",label:"Mañana",time:P.amTime,proto:am,min:dm,icon:"☀"});
+    if(P.optSMR && hp) list.push({slot:"ox",label:"Mediodía",time:P.smrTime||"12:15",proto:"smr13_binaural",min:15,icon:"◇",opt:true});
+    list.push({slot:"pm",label:"Tarde",time:P.pmTime,proto:pm,min:dm,icon:"◐"});
+  }
+  if(P.optTheta4 && hp) list.push({slot:"oy",label:"Pre-sueño",time:P.preTime||"21:00",proto:"theta4_binaural_presueno",min:20,icon:"◑",opt:true});
+  list.push({slot:"sl",label:"Al dormir",time:P.bedTime||"Al acostarte",proto:sl,min:slMin,icon:"☾",key:true});
+  return {day:d,phase:ph,rest:isRest(d,N),eval:isEval(d,N),date:addDays(P.startDate,d-1),list};
+}
+const sKey=(d,slot)=>d+"-"+slot;
+function core(sc){ return sc.list.filter(x=>!x.opt); }
+function doneCount(d){ const sc=daySchedule(d); return core(sc).filter(x=>S.sessions[sKey(d,x.slot)]?.done).length; }
+
+/* ============================================================
+   AUDIO: archivos maestros incluidos en la app (carpeta audio/)
+   FLAC 48 kHz / 16 bit, bucles de 20 s sin corte, sonoridad
+   normalizada según ITU-R BS.1770 (ver audio/calidad.json)
+   ============================================================ */
+function buildLoop(id){ return new URL(PROTOCOLS[id].file, location.href).href; }
+/* ============================================================
+   REPRODUCTOR
+   ============================================================ */
+const audio=new Audio(); audio.loop=true; audio.preload="auto";
+let PL={proto:null, target:900, elapsed:0, playing:false, lastTs:0, day:null, slot:null, raf:0, wakeLock:null, fading:false, baseVol:0.5};
+const $=id=>document.getElementById(id);
+function fmtClock(s){ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+":"+pad(s%60); }
+
+function openPlayer(protoId, minutes, day, slot){
+  if(PL.playing) stopPlayer(false);
+  const p=PROTOCOLS[protoId];
+  PL={...PL, proto:protoId, target:minutes*60, elapsed:0, playing:false, day, slot, fading:false};
+  $("plTitle").textContent=p.name;
+  $("plSub").textContent=(slot?({am:"Sesión de mañana",pm:"Sesión de tarde",sl:"Sesión al dormir"}[slot]+" · Día "+day+" · "):"Escucha libre · ")+minutes+" min · "+TIER_LABEL[p.tier];
+  const night = slot==="sl" || slot==="oy" || p.band.includes("sueño");
+  const vol = night ? (S.plan?.nightVol ?? 0.2) : (S.plan?.dayVol ?? 0.5);
+  $("plVol").value=vol; PL.baseVol=vol; audio.volume=vol;
+  $("plHint").textContent = (p.phones? "Usa audífonos: el efecto binaural necesita un tono distinto en cada oído. " : "Funciona con altavoz o audífonos. ")
+    + (night? "Pon el celular lejos de la cabeza o usa un parlante de almohada; el volumen debe apenas notarse. Se apaga solo al terminar." : "Siéntate tranquilo, ojos cerrados o mirada suave. No lo uses conduciendo.");
+  $("plTime").textContent=fmtClock(PL.target); $("plBar").style.width="0%";
+  $("plPlay").textContent="Iniciar"; $("plStop").disabled=true; $("plState").textContent="Listo"; $("plState").className="tag";
+  $("sheet").classList.add("open");
+  drawScope(0);
+}
+async function togglePlay(){
+  if(!PL.proto) return;
+  if(NATIVE){
+    if(PL.playing){ try{AndroidBridge.stop();}catch(e){} PL.playing=false; PL.nativeRun=false; $("plPlay").textContent="Continuar"; $("plState").textContent="En pausa"; $("plState").className="tag"; return; }
+    const remaining=Math.max(1,Math.round(PL.target-PL.elapsed));
+    const meta=JSON.stringify({day:PL.day,slot:PL.slot,proto:PL.proto,target:PL.target});
+    const fade=(PL.slot==="sl"||PL.slot==="oy")?120:45;
+    try{ AndroidBridge.play("www/"+PROTOCOLS[PL.proto].file, remaining, PL.baseVol, PROTOCOLS[PL.proto].name, meta, fade); }
+    catch(e){ $("plState").textContent="No se pudo iniciar el audio"; return; }
+    PL.playing=true; PL.nativeRun=true; PL.runBase=PL.elapsed; PL.lastPoll=0;
+    $("plPlay").textContent="Pausar"; $("plStop").disabled=false; $("plState").textContent="Sonando · sigue con la pantalla apagada"; $("plState").className="tag a";
+    cancelAnimationFrame(PL.raf); loop(); return;
+  }
+  if(PL.playing){ audio.pause(); PL.playing=false; $("plPlay").textContent="Continuar"; $("plState").textContent="En pausa"; releaseWake(); return; }
+  $("plState").textContent="Preparando…";
+  await new Promise(r=>setTimeout(r,20));
+  const url=buildLoop(PL.proto);
+  if(audio.src!==url) audio.src=url;
+  try{ await audio.play(); }catch(e){ $("plState").textContent= audio.error? "No se encontró el archivo de audio" : "Toca de nuevo para iniciar"; return; }
+  PL.playing=true; PL.lastTs=performance.now();
+  $("plPlay").textContent="Pausar"; $("plStop").disabled=false; $("plState").textContent="Sonando"; $("plState").className="tag a";
+  if("mediaSession" in navigator){ try{ navigator.mediaSession.metadata=new MediaMetadata({title:PROTOCOLS[PL.proto].name, artist:"Plan Neuro-Audio"}); }catch(e){} }
+  if(PL.slot!=="sl") requestWake();
+  cancelAnimationFrame(PL.raf); loop();
+}
+function tick(){
+  if(!PL.playing) return;
+  if(NATIVE && PL.nativeRun){
+    let st=null; try{ st=JSON.parse(AndroidBridge.getStatus()); }catch(e){}
+    if(!st) return;
+    PL.elapsed=PL.runBase+(st.elapsed||0);
+    $("plTime").textContent=fmtClock(PL.target-PL.elapsed);
+    $("plBar").style.width=Math.min(100,PL.elapsed/PL.target*100)+"%";
+    if(!st.playing){
+      PL.playing=false; PL.nativeRun=false;
+      if(st.completed){ nativeFinishedUI(); } else { stopPlayer(false); }
+    }
+    return;
+  }
+  const now=performance.now(); PL.elapsed+= (now-PL.lastTs)/1000; PL.lastTs=now;
+  const left=PL.target-PL.elapsed;
+  $("plTime").textContent=fmtClock(left);
+  $("plBar").style.width=Math.min(100,PL.elapsed/PL.target*100)+"%";
+  if(left<=60 && left>0){ audio.volume=Math.max(0,PL.baseVol*(left/60)); }
+  if(left<=0) finishSession();
+}
+function loop(){
+  const now=performance.now();
+  if(!NATIVE || now-(PL.lastPoll||0)>250){ PL.lastPoll=now; tick(); }
+  drawScope(PL.elapsed); if(PL.playing) PL.raf=requestAnimationFrame(loop);
+}
+function nativeFinishedUI(){
+  $("plState").textContent="Completada"; $("plState").className="tag a"; $("plPlay").textContent="Repetir"; $("plStop").disabled=true;
+  $("plTime").textContent="0:00"; $("plBar").style.width="100%"; PL.elapsed=0;
+  processNativeDone();
+}
+function processNativeDone(){
+  if(!NATIVE) return;
+  let d=null; try{ d=JSON.parse(AndroidBridge.consumeDone()||"null"); }catch(e){}
+  if(d && d.slot){ S.sessions[sKey(d.day,d.slot)]={done:true,partial:false,proto:d.proto,secs:Math.round(d.target||0),at:Date.now()}; save(); render(); }
+}
+audio.addEventListener("timeupdate",tick);
+function finishSession(){
+  audio.pause(); PL.playing=false; releaseWake();
+  $("plState").textContent="Completada"; $("plState").className="tag a"; $("plPlay").textContent="Repetir"; $("plStop").disabled=true;
+  $("plTime").textContent="0:00"; $("plBar").style.width="100%";
+  markDone(true); PL.elapsed=0; audio.volume=PL.baseVol;
+}
+function stopPlayer(ask){
+  if(NATIVE && PL.nativeRun){ try{AndroidBridge.stop();}catch(e){} PL.nativeRun=false; }
+  audio.pause(); PL.playing=false; releaseWake(); cancelAnimationFrame(PL.raf);
+  if(PL.slot && PL.elapsed>=PL.target*0.85) markDone(true);
+  else if(PL.slot && PL.elapsed>=60) markDone(false);
+  PL.elapsed=0; audio.volume=PL.baseVol;
+  $("plPlay").textContent="Iniciar"; $("plStop").disabled=true; $("plState").textContent="Detenida"; $("plState").className="tag";
+  $("plTime").textContent=fmtClock(PL.target); $("plBar").style.width="0%";
+}
+function markDone(full){
+  if(!PL.slot) return;
+  const k=sKey(PL.day,PL.slot), prev=S.sessions[k];
+  const secs=Math.round(PL.elapsed);
+  if(prev?.done && !full) return;
+  S.sessions[k]={done:full, partial:!full, proto:PL.proto, secs:Math.max(secs,prev?.secs||0), at:Date.now()};
+  save(); render();
+}
+async function requestWake(){ try{ if("wakeLock" in navigator) PL.wakeLock=await navigator.wakeLock.request("screen"); }catch(e){} }
+function releaseWake(){ try{ PL.wakeLock?.release(); }catch(e){} PL.wakeLock=null; }
+
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function drawScope(t){
+  const c=$("scope"); if(!c||!PL.proto) return;
+  const dpr=window.devicePixelRatio||1, w=c.clientWidth, h=c.clientHeight;
+  if(c.width!==w*dpr){ c.width=w*dpr; c.height=h*dpr; }
+  const x=c.getContext("2d"); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,w,h);
+  const p=PROTOCOLS[PL.proto], mid=h/2, teal=cssVar("--teal"), amber=cssVar("--amber"), line=cssVar("--line");
+  x.strokeStyle=line; x.lineWidth=1; x.beginPath(); x.moveTo(0,mid); x.lineTo(w,mid); x.stroke();
+  const kind = id=>id.includes('binaural')?'bin':(id.includes('genus')?'iso':(id.includes('ondas')?'slow':(id.includes('am')?'iso':'tone')));
+  const shown = kind(PL.proto)==="slow"?4:(p.beat>=20?0.25:(p.beat>0?2/p.beat:0.5));
+  const draw=(fn,col,off)=>{ x.strokeStyle=col; x.lineWidth=2; x.beginPath();
+    for(let i=0;i<=w;i++){ const tt=t+(i/w)*shown; const y=mid+off-fn(tt)*(h*0.36); i?x.lineTo(i,y):x.moveTo(i,y);} x.stroke(); };
+  const TAU=Math.PI*2;
+  if(kind(PL.proto)==="iso"){ draw(tt=>Math.sin(TAU*72*tt)*Math.min(1,Math.max(0,Math.sin(TAU*p.beat*tt))*2.2),teal,0); }
+  else if(kind(PL.proto)==="bin"){ const f=p.beat, vc=12/shown; draw(tt=>0.45*Math.sin(TAU*vc*tt),teal,-h*0.14); draw(tt=>0.45*Math.sin(TAU*(vc+f)*tt),amber,h*0.14); }
+  else if(kind(PL.proto)==="slow"){ const per=1/p.beat; draw(tt=>{const ph=tt%per; return ph<0.05?Math.sin(tt*900)*0.9:Math.sin(tt*420)*0.06;},teal,0); }
+  else { draw(tt=>Math.sin(TAU*(12/shown)*tt)*(0.75+0.25*Math.sin(TAU*0.1*tt)),amber,0); }
+}
+
+/* ============================================================
+   VISTAS
+   ============================================================ */
+let TAB="hoy";
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function tierTag(t){ return `<span class="tag ${TIER_CLASS[t]}">${TIER_LABEL[t]}</span>`; }
+
+function render(){
+  const app=$("app");
+  document.querySelectorAll("#tabs button").forEach(b=>b.setAttribute("aria-current", b.dataset.tab===TAB?"page":"false"));
+  if(!S.plan && (TAB==="hoy"||TAB==="plan")){ app.innerHTML=viewSetup(); bindSetup(); return; }
+  if(TAB==="hoy") app.innerHTML=viewToday();
+  if(TAB==="plan") app.innerHTML=viewPlan();
+  if(TAB==="lib") app.innerHTML=viewLib();
+  if(TAB==="eval") app.innerHTML=viewEval();
+  if(TAB==="prog") app.innerHTML=viewProg();
+  bindCommon();
+  if(TAB==="hoy") drawHeroWave();
+  updateSync();
+}
+
+/* ---------- Configuración ---------- */
+function viewSetup(){
+  const t=todayStr();
+  return `
+  <div class="hero"><h1>Plan de escucha para estimular BDNF</h1>
+  <p class="muted">Define cuántos días dura tu plan. La app arma los ciclos, te guía en cada sesión (2 diarias de 15 min + la sesión nocturna, la más importante) y mide tu evolución.</p></div>
+  <div class="panel">
+    <h3>Duración del plan</h3>
+    <div class="row" style="margin-top:10px" id="durChips">
+      ${[60,90,120,180].map(n=>`<button class="chip" data-dur="${n}" aria-pressed="${n===90}">${n} días${n===90?" · recomendado":""}</button>`).join("")}
+    </div>
+    <label class="field" for="fDays">O escribe los días</label>
+    <input type="number" id="fDays" min="14" max="365" value="90">
+    <p class="small muted">90 días es el mínimo razonable: los cambios en memoria y en el hipocampo que muestran los estudios de ejercicio y de estimulación a 40 Hz aparecen entre las 12 semanas y los 6 meses.</p>
+    <label class="field" for="fStart">Fecha de inicio</label>
+    <input type="date" id="fStart" value="${t}">
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="fAm">Sesión de mañana</label><input type="time" id="fAm" value="05:45"></div>
+      <div style="flex:1;min-width:130px"><label class="field" for="fPm">Sesión de tarde</label><input type="time" id="fPm" value="18:15"></div>
+    </div>
+    <p class="small muted">Sugerido para jornada de 7 a 4 y llegada a casa a las 5: mañana antes de salir; tarde después del ejercicio.</p>
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="fBed">Hora de acostarte</label><input type="time" id="fBed" value="21:30"></div>
+      <div style="flex:1;min-width:130px"><label class="field" for="fDayMin">Sesiones de día</label><select id="fDayMin"><option value="15" selected>15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></div>
+    </div>
+    <label class="field" for="fSleep">Duración máxima de la sesión nocturna</label>
+    <select id="fSleep"><option value="30">30 min</option><option value="45">45 min</option><option value="60" selected>60 min</option><option value="90">90 min</option></select>
+    <label class="field"><input type="checkbox" id="fPhones" checked> Tengo audífonos (habilita protocolos binaurales)</label>
+    <label class="field"><input type="checkbox" id="fSMR"> Sesión opcional SMR 13 Hz en la pausa del mediodía</label>
+    <label class="field"><input type="checkbox" id="fT4"> Sesión opcional theta 4 Hz antes de dormir</label>
+  </div>
+  <div class="panel small">
+    <h3>Antes de empezar</h3>
+    <p>Esta es una herramienta de bienestar, no un tratamiento médico. La evidencia de que el sonido por sí solo eleve el BDNF en humanos todavía es limitada; lo explico en la pestaña Frecuencias.</p>
+    <p>No uses las sesiones conduciendo. Si tienes epilepsia, tinnitus o un implante auditivo, consulta primero a tu médico. Mantén siempre el volumen bajo.</p>
+    <label class="field"><input type="checkbox" id="fAck"> Entiendo y quiero continuar</label>
+  </div>
+  <button class="btn" id="fCreate" disabled>Crear mi plan</button>`;
+}
+function preFrom(bed){ const [h,m]=bed.split(":").map(Number); const t=(h*60+m-30+1440)%1440; return pad(Math.floor(t/60))+":"+pad(t%60); }
+function bindSetup(){
+  document.querySelectorAll("#durChips .chip").forEach(b=>b.onclick=()=>{ document.querySelectorAll("#durChips .chip").forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); $("fDays").value=b.dataset.dur; });
+  $("fAck").onchange=()=>$("fCreate").disabled=!$("fAck").checked;
+  $("fCreate").onclick=()=>{
+    const days=Math.max(14,Math.min(365,parseInt($("fDays").value)||90));
+    S.plan={days,startDate:$("fStart").value||todayStr(),amTime:$("fAm").value||"05:45",pmTime:$("fPm").value||"18:15",bedTime:$("fBed").value||"21:30",dayMin:+$("fDayMin").value||15,optSMR:$("fSMR").checked,optTheta4:$("fT4").checked,smrTime:"12:15",preTime:preFrom($("fBed").value||"21:30"),sleepMin:parseInt($("fSleep").value)||60,headphones:$("fPhones").checked,dayVol:0.5,nightVol:0.2,created:Date.now()};
+    S.sessions={}; save(); TAB="hoy"; render();
+  };
+}
+
+/* ---------- Hoy ---------- */
+function viewToday(){
+  const N=S.plan.days, d=currentDay();
+  if(d<1) return `<div class="hero"><h1>Tu plan empieza el ${fmtDate(S.plan.startDate)}</h1><p class="muted">Faltan ${1-d} día(s). Mientras tanto, haz la evaluación inicial en la pestaña Evaluar para tener tu línea base.</p></div>${checkinPanel()}`;
+  if(d>N) return `<div class="hero"><h1>Completaste tu plan de ${N} días</h1><p class="muted">Revisa la pestaña Progreso y haz una evaluación final si aún no la hiciste.</p></div>
+    <div class="panel"><button class="btn" data-go="prog">Ver mis resultados</button> <button class="btn ghost" id="newPlan">Crear un plan nuevo</button></div>`;
+  const sc=daySchedule(d), ph=PHASES[sc.phase-1], {p1,p2}=phaseBounds(N);
+  const done=doneCount(d), ncore=core(sc).length;
+  return `
+  <div class="hero">
+    <div class="day">Día ${d} <span>de ${N}</span></div>
+    <p style="margin-top:8px"><b>Fase ${ph.id}: ${ph.name}.</b> <span class="muted">${ph.text}</span></p>
+    <div class="phasebar" aria-hidden="true"><i style="width:${p1/N*100}%;background:${PHASES[0].color}"></i><i style="width:${(p2-p1)/N*100}%;background:${PHASES[1].color}"></i><i style="width:${(N-p2)/N*100}%;background:${PHASES[2].color}"></i></div>
+    <div class="small muted" style="position:relative;height:1.2em"><span style="position:absolute;left:calc(${(d-0.5)/N*100}% - 5px)">▲</span></div>
+    <canvas class="heroWave" id="heroWave" aria-hidden="true"></canvas>
+  </div>
+  ${sc.eval?`<div class="banner"><b>Hoy toca evaluación.</b> Toma 3 minutos y es lo que permite medir si hay mejora. <button class="btn amber" data-go="eval" style="margin-left:6px">Evaluar ahora</button></div>`:""}
+  <div class="panel">
+    <div class="row"><h2>Sesiones de hoy</h2><span class="spacer"></span><span class="tag ${done===ncore?"a":""}">${done} de ${ncore}</span></div>
+    ${sc.rest?`<p class="muted small">Día de descanso activo: solo la sesión nocturna. Ideal para caminar, trotar o hacer ejercicio aeróbico, que es lo que más eleva el BDNF.</p>`:""}
+    ${sc.list.map(x=>sessRow(d,x)).join("")}
+  </div>
+  <div class="panel"><div class="row"><div><h3>Entrenamiento cognitivo</h3><p class="small muted">3 minutos de n-back. Complementa el sonido: el entrenamiento cognitivo tiene evidencia directa sobre BDNF.</p></div><span class="spacer"></span>${S.train?.hist?.[todayStr()]?`<span class="tag a">Hecho hoy</span>`:`<button class="btn ghost" data-go="eval">Entrenar</button>`}</div></div>
+  ${checkinPanel()}
+  ${installCard()}
+  <p class="sync" id="syncTag"></p>`;
+}
+function sessRow(d,x){
+  const p=PROTOCOLS[x.proto], st=S.sessions[sKey(d,x.slot)];
+  const cls=st?.done?"done":(x.key?"key":"");
+  return `<div class="sess ${cls}">
+    <div class="slot" aria-hidden="true">${st?.done?"✓":x.icon}</div>
+    <div><div class="t">${x.label} <span class="muted small">· ${esc(x.time)} · ${x.min} min</span></div>
+      <div class="small">${p.name}</div>
+      <div class="small muted">${x.opt?"Opcional, no cuenta en la adherencia. ":""}${x.key?"Sesión más importante del día. ":""}${p.phones?"Con audífonos. ":""}${st?.partial&&!st?.done?"Iniciada, sin completar.":""}</div></div>
+    <button class="btn ${x.key?"amber":""}" data-play="${x.proto}" data-min="${x.min}" data-day="${d}" data-slot="${x.slot}">${st?.done?"Repetir":"Escuchar"}</button>
+  </div>`;
+}
+function installCard(){
+  if(NATIVE) return "";
+  if(window.matchMedia("(display-mode: standalone)").matches) return "";
+  if(deferredPrompt) return `<div class="panel"><div class="row"><div><h3>Instala la app</h3><p class="small muted">Queda en tu pantalla de inicio y funciona sin internet.</p></div><span class="spacer"></span><button class="btn" id="installBtn">Instalar</button></div></div>`;
+  return "";
+}
+function checkinPanel(){
+  const t=todayStr(), c=S.checkins[t]||{};
+  const sl=(id,label,lo,hi)=>`<label class="field" for="ci_${id}">${label} <span class="muted small" id="ci_${id}_v">${c[id]??5}/10</span></label>
+    <input type="range" id="ci_${id}" min="1" max="10" value="${c[id]??5}" data-ci="${id}"><div class="row small muted"><span>${lo}</span><span class="spacer"></span><span>${hi}</span></div>`;
+  return `<div class="panel">
+    <h2>Registro diario</h2>
+    <p class="small muted">Tu percepción de hoy. Con el tiempo se convierte en una curva de evolución.</p>
+    ${sl("sleep","Calidad del sueño anoche","Muy mala","Excelente")}
+    ${sl("focus","Concentración","Dispersa","Muy enfocada")}
+    ${sl("memory","Memoria","Olvidos frecuentes","Muy buena")}
+    ${sl("mood","Ánimo","Bajo","Muy bueno")}
+    ${sl("stress","Estrés","Muy alto","Muy bajo")}
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="ci_ex">Ejercicio aeróbico, baile o yoga (min)</label><input type="number" id="ci_ex" min="0" max="300" value="${c.exercise??0}"></div>
+      <div style="flex:1;min-width:130px"><label class="field" for="ci_sh">Horas dormidas anoche</label><input type="number" id="ci_sh" min="0" max="14" step="0.5" value="${c.sleepHours??""}"></div>
+    </div>
+    <p class="field" style="margin-bottom:0">Hábitos de hoy</p>
+    <label class="small" style="display:block;margin:6px 0"><input type="checkbox" id="ci_learn" ${c.learn?"checked":""}> Aprendí o practiqué algo nuevo y exigente (idioma, instrumento, lectura profunda)</label>
+    <label class="small" style="display:block;margin:6px 0"><input type="checkbox" id="ci_social" ${c.social?"checked":""}> Tuve una conversación o actividad social significativa</label>
+    <label class="small" style="display:block;margin:6px 0"><input type="checkbox" id="ci_mind" ${c.mind?"checked":""}> Comí al estilo MIND: verduras de hoja, legumbres, pescado, nueces, frutos rojos, aceite de oliva; poco azúcar y ultraprocesados</label>
+    <label class="small" style="display:block;margin:6px 0"><input type="checkbox" id="ci_noalc" ${c.noalc?"checked":""}> Sin alcohol hoy</label>
+    <label class="small" style="display:block;margin:6px 0"><input type="checkbox" id="ci_screen" ${c.screen?"checked":""}> Sin pantallas 1 hora antes de dormir</label>
+    <label class="field" for="ci_note">Nota (opcional)</label>
+    <textarea id="ci_note" placeholder="Cómo te sentiste, qué cambió">${esc(c.note||"")}</textarea>
+    <div class="row" style="margin-top:12px"><button class="btn" id="ciSave">Guardar registro</button><span class="small muted" id="ciMsg">${S.checkins[t]?"Registro de hoy guardado.":""}</span></div>
+  </div>`;
+}
+function drawHeroWave(){
+  const c=$("heroWave"); if(!c) return;
+  const dpr=window.devicePixelRatio||1, w=c.clientWidth, h=c.clientHeight; c.width=w*dpr; c.height=h*dpr;
+  const x=c.getContext("2d"); x.scale(dpr,dpr);
+  const N=S.plan.days, d=currentDay(), teal=cssVar("--teal"), line=cssVar("--line");
+  // una línea por día: altura = sesiones completadas
+  const bw=w/N;
+  for(let i=1;i<=N;i++){
+    const done = i<=d ? doneCount(i) : 0, tot = core(daySchedule(i)).length;
+    const hh = i<=d ? 6 + (done/tot)*(h-10) : 4;
+    x.fillStyle = i<=d && done>0 ? teal : line;
+    x.globalAlpha = i===d ? 1 : (i<d?0.85:0.6);
+    x.fillRect((i-1)*bw+bw*0.15, h-hh, Math.max(1,bw*0.7), hh);
+  }
+  x.globalAlpha=1;
+}
+
+/* ---------- Plan ---------- */
+function viewPlan(){
+  const N=S.plan.days, d=currentDay(), {p1,p2}=phaseBounds(N);
+  let cells="";
+  for(let i=1;i<=N;i++){
+    const sc=daySchedule(i), dn=doneCount(i), lv=dn===0?"":(dn>=core(sc).length?"l3":(dn>=2?"l2":"l1"));
+    cells+=`<button class="${lv} ${i===d?"today":""} ${sc.rest?"rest":""} ${sc.eval?"ev":""}" data-dayinfo="${i}" aria-label="Día ${i}, ${dn} de ${core(sc).length} sesiones">${i}</button>`;
+  }
+  return `
+  <h1>Tu plan de ${N} días</h1>
+  <p class="muted">Del ${fmtDate(S.plan.startDate)} al ${fmtDate(addDays(S.plan.startDate,N-1))}.</p>
+  <div class="panel">
+    <h3>Ciclos</h3>
+    <div class="list small">
+      <p><b style="color:var(--text)">Fase 1 · Adaptación</b> (días 1–${p1}). Gamma 40 Hz en la mañana, alfa 10 Hz en la tarde, ondas lentas 30 min al dormir.</p>
+      <p><b>Fase 2 · Consolidación</b> (días ${p1+1}–${p2}). Alterna gamma isocrónico y binaural, theta y alfa, y dos protocolos nocturnos, hasta 45 min.</p>
+      <p><b>Fase 3 · Integración</b> (días ${p2+1}–${N}). Se quedan los protocolos con mejor respaldo; sesión nocturna de hasta ${S.plan.sleepMin} min.</p>
+      <p class="muted">Cada 7 días hay descanso activo (solo sesión nocturna) para evitar habituación. Evaluaciones: día 1, cada 7 días y el último día.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Calendario</h3>
+    <div class="cal">${cells}</div>
+    <div class="legend"><span><i style="background:var(--teal)"></i>Día completo</span><span><i style="background:color-mix(in srgb,var(--teal) 40%,var(--surface2))"></i>Parcial</span><span><i style="border-style:dashed"></i>Descanso</span><span><i style="background:var(--amber);border-radius:50%"></i>Evaluación</span></div>
+    <div id="dayDetail" style="margin-top:14px"></div>
+  </div>
+  <div class="panel">
+    <h3>Ajustes</h3>
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="sAm">Mañana</label><input type="time" id="sAm" value="${S.plan.amTime}"></div>
+      <div style="flex:1;min-width:130px"><label class="field" for="sPm">Tarde</label><input type="time" id="sPm" value="${S.plan.pmTime}"></div>
+    </div>
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="sBed">Hora de acostarte</label><input type="time" id="sBed" value="${S.plan.bedTime||"21:30"}"></div>
+      <div style="flex:1;min-width:130px"><label class="field" for="sDayMin">Sesiones de día</label><select id="sDayMin">${[15,20,30].map(v=>`<option value="${v}" ${v===(S.plan.dayMin||15)?"selected":""}>${v} min</option>`).join("")}</select></div>
+    </div>
+    <div class="row" style="gap:12px">
+      <div style="flex:1;min-width:130px"><label class="field" for="sExT">Hora de ejercicio</label><input type="time" id="sExT" value="${S.plan.exTime||"17:15"}"></div>
+      <div style="flex:1;min-width:130px"><label class="field"><input type="checkbox" id="sRem" ${S.plan.remind!==false?"checked":""}> Recordatorios en el celular</label></div>
+    </div>
+    <label class="field"><input type="checkbox" id="sSMR" ${S.plan.optSMR?"checked":""}> SMR 13 Hz opcional al mediodía</label>
+    <label class="field" for="sSmrT">Hora del mediodía</label><input type="time" id="sSmrT" value="${S.plan.smrTime||"12:15"}">
+    <label class="field"><input type="checkbox" id="sT4" ${S.plan.optTheta4?"checked":""}> Theta 4 Hz opcional antes de dormir (30 min antes de acostarte)</label>
+    <label class="field" for="sSleep">Sesión nocturna máxima</label>
+    <select id="sSleep">${[30,45,60,90].map(v=>`<option value="${v}" ${v===S.plan.sleepMin?"selected":""}>${v} min</option>`).join("")}</select>
+    <label class="field"><input type="checkbox" id="sPhones" ${S.plan.headphones?"checked":""}> Tengo audífonos</label>
+    <label class="field" for="sDays">Duración (días)</label>
+    <input type="number" id="sDays" min="7" max="365" value="${N}">
+    <div class="row" style="margin-top:12px"><button class="btn" id="sSave">Guardar ajustes</button><button class="btn ghost" id="sReset">Reiniciar plan</button></div>
+  </div>`;
+}
+function dayDetail(i){
+  const sc=daySchedule(i);
+  return `<h3>Día ${i} · ${fmtDate(sc.date)}</h3><p class="small muted">Fase ${sc.phase}: ${PHASES[sc.phase-1].name}${sc.rest?" · descanso activo":""}${sc.eval?" · evaluación":""}</p>${sc.list.map(x=>sessRow(i,x)).join("")}`;
+}
+
+/* ---------- Biblioteca ---------- */
+function viewLib(){
+  const groups=["A","B","C","D"];
+  return `
+  <h1>Frecuencias</h1>
+  <p class="muted">Ordenadas por respaldo científico, no por popularidad. Todas se generan en tu dispositivo, sin internet.</p>
+  ${groups.map(g=>`<div class="panel"><div class="row"><h3>${TIER_LABEL[g]}</h3></div>
+    ${Object.entries(PROTOCOLS).filter(([,p])=>p.tier===g).map(([id,p])=>`
+      <div class="sess lib"><div class="slot" aria-hidden="true">${p.beat?p.beat:"♪"}</div>
+      <div><div class="t">${p.name}</div><div class="small muted">${p.use}${p.phones?" · audífonos":""}</div><p class="small">${p.desc}</p></div>
+      <button class="btn ghost" data-play="${id}" data-min="15">Escuchar</button></div>`).join("")}
+  </div>`).join("")}
+  <div class="panel">
+    <h2>Las frecuencias a fondo</h2>
+    <details open><summary>1. Cómo un sonido puede cambiar el ritmo del cerebro</summary>
+      <p class="small">Las neuronas se comunican en ritmos (ondas cerebrales). Cuando el oído recibe un estímulo que se repite con regularidad, la corteza auditiva tiende a sincronizarse con él: se llama <b>arrastre</b> o <i>entrainment</i>, y se mide con EEG como <b>respuesta auditiva de estado estable</b> (ASSR). En humanos esa respuesta es máxima cerca de 40 Hz: los circuitos de la corteza "resuenan" a ese ritmo, en parte por las interneuronas inhibitorias de tipo parvalbúmina. Por eso 40 Hz no es un número arbitrario.</p></details>
+    <details><summary>2. Tres formas de construir el pulso (y por qué no valen lo mismo)</summary>
+      <p class="small"><b>Pulso real (isocrónico o modulado en amplitud):</b> el sonido se enciende y apaga, o sube y baja, físicamente. Ambos oídos lo reciben. Produce la respuesta cerebral más fuerte y medible. Es lo que usan los estudios del MIT y los ensayos clínicos (GENUS, Spectris).</p>
+      <p class="small"><b>Binaural:</b> un tono distinto en cada oído (por ejemplo 197 y 203 Hz). El pulso de 6 Hz no existe en el aire: lo "fabrica" el tronco encefálico al combinar ambos oídos. Solo funciona con audífonos, con portadoras graves-medias (por debajo de unos 1.000 Hz; idealmente 200–500 Hz) y genera una respuesta cortical mucho más débil. Sirve sobre todo para relajación y bandas lentas.</p>
+      <p class="small"><b>Monaural:</b> los dos tonos mezclados en el aire; el pulso es físico. Más fuerte que el binaural, menos preciso que el isocrónico.</p></details>
+    <details><summary>3. Las bandas: qué hace cada una y cuánta evidencia hay</summary>
+      <p class="small"><b>Delta (0,5–4 Hz):</b> sueño profundo. Es cuando se consolida la memoria y el sistema glinfático limpia desechos como el amiloide. Evidencia: estimular las ondas lentas con sonido sincronizado al EEG mejora el sueño profundo y la memoria en laboratorio; sin EEG el efecto es menor.</p>
+      <p class="small"><b>Theta (4–8 Hz):</b> ritmo del hipocampo al aprender y recordar. Evidencia mixta con pulsos binaurales; efectos pequeños.</p>
+      <p class="small"><b>Alfa (8–12 Hz):</b> vigilia relajada. Útil para bajar estrés; el estrés crónico reduce BDNF en el hipocampo.</p>
+      <p class="small"><b>SMR (12–15 Hz):</b> atención tranquila. Lo que tiene respaldo es el neurofeedback SMR (entrenar el propio EEG), no escucharlo.</p>
+      <p class="small"><b>Beta (15–30 Hz):</b> alerta y concentración activa. Poca evidencia útil para este objetivo; por eso no está en el plan.</p>
+      <p class="small"><b>Gamma (30–100 Hz, en especial 40 Hz):</b> integración de información y memoria de trabajo. Es la banda con el programa de investigación más serio en Alzheimer: en ratones redujo amiloide y tau y mejoró la memoria, activó la microglía y aumentó la limpieza glinfática; en personas hay ensayos pequeños positivos y el ensayo pivotal HOPE (673 pacientes, 12 meses, luz y sonido 1 hora diaria) terminó en agosto de 2026; sus resultados definirán si se aprueba como tratamiento.</p></details>
+    <details><summary>4. Los parámetros que sí importan</summary>
+      <p class="small"><b>Frecuencia exacta del pulso</b> (40,00 Hz no es igual a "unos 40"); <b>profundidad de modulación</b> (el pulso debe ser marcado, no un vaivén leve); <b>volumen cómodo pero audible</b> (60–65 dB, como una conversación tranquila); <b>dosis</b> (los ensayos usan 1 hora diaria durante meses; este plan usa 30 minutos de 40 Hz como versión conservadora); y <b>constancia</b>, que pesa más que cualquier detalle técnico. La altura del tono (400, 500 o 4.000 Hz) importa poco: lo que el cerebro sigue es el ritmo.</p></details>
+    <details><summary>5. Mitos frecuentes</summary>
+      <p class="small">Las frecuencias Solfeggio (528 Hz "reparadora del ADN", 432 Hz "natural"), las pistas que prometen "regenerar neuronas en 20 minutos" o "curar el Alzheimer", y los archivos rotulados con un número que no coincide con lo que contienen (como varios que analizamos de Pixabay) no tienen respaldo. Una frecuencia de tono no es lo mismo que un ritmo de pulso: un tono de 40 Hz (una nota muy grave) no estimula como 40 pulsos por segundo.</p></details>
+  </div>
+  <div class="panel">
+    <h2>Tu biblioteca científica</h2>
+    <p class="small muted">Resumen de los estudios que aportaste y lo que cada uno cambia en este plan.</p>
+    <details><summary>Bathina y Das, 2015 · Archives of Medical Science · Revisión</summary>
+      <p class="small">Explica el mecanismo: el BDNF se une al receptor TrkB y activa tres vías (PI3K/Akt, Ras/MAPK/ERK y PLC) que terminan en CREB, un interruptor genético de plasticidad y supervivencia neuronal. El ejercicio aumenta BDNF en el hipocampo; los omega-3 lo normalizan en modelos animales; el alcohol crónico lo reduce; y la glucosa alta inhibe la salida de BDNF del cerebro humano. <b>En el plan:</b> hábitos de ejercicio, alimentación MIND (pescado, nueces, poco azúcar) y sin alcohol.</p></details>
+    <details><summary>Ehrhardt y cols., 2024 · Experimental Physiology · Ritmo circadiano</summary>
+      <p class="small">En 10 hombres jóvenes, el BDNF en plasma no mostró ritmo de 24 horas; el BDNF en suero bajó durante el sueño y se asoció con la frecuencia cardíaca. La actividad moderada inmediata no lo cambió de forma aguda. <b>En el plan:</b> confirma por qué no conviene perseguir una cifra de BDNF en sangre, y que la intensidad y la regularidad del ejercicio importan más que un paseo suave aislado.</p></details>
+    <details><summary>Son y cols., 2026 · Healthcare · Yoga 16 semanas en mujeres de 70–79 años</summary>
+      <p class="small">El BDNF subió con el tiempo en los grupos de yoga, pero sin diferencia estadística clara frente al control; el IGF-1 sí aumentó; la prueba cognitiva mejoró poco. Estudio sin asignación aleatoria. <b>En el plan:</b> el yoga cuenta como actividad en tu registro, pero el ejercicio aeróbico sigue siendo la base.</p></details>
+    <details><summary>Mosiołek y cols., 2023 · Biomedicines · Revisión de 10 ensayos</summary>
+      <p class="small">El entrenamiento cognitivo elevó el BDNF en varios ensayos (incluido uno con 293 personas con deterioro cognitivo leve, donde además se correlacionó con mejor memoria); el mindfulness no lo cambió. El BDNF en sangre no sirve todavía como medida objetiva del éxito. <b>En el plan:</b> se añadió el entrenamiento n-back diario en la pestaña Evaluar.</p></details>
+    <details><summary>Garzón y cols., 2021 · Revista de la Facultad de Medicina, Universidad Nacional de Colombia · Terapia neural</summary>
+      <p class="small">Estudio piloto de 10 pacientes con dolor crónico en Bogotá: tras la terapia, NGF y BDNF en sangre bajaron mientras la calidad de vida mejoraba. <b>Lección clave:</b> el BDNF periférico también sube con el dolor y la inflamación, así que "más BDNF en sangre" no siempre significa un cerebro más sano. Por eso la app mide memoria, velocidad y bienestar.</p></details>
+  </div>
+  <div class="panel">
+    <h2>Calidad de los archivos de sonido</h2>
+    <p class="small">Cada pista viene incluida en la app y funciona sin internet. Todas cumplen: FLAC sin pérdida a 48 kHz / 16 bit con dither TPDF; bucles de 20 s con ciclos enteros (la unión no tiene clic ni salto); sonoridad igualada según ITU-R BS.1770 (−23 LUFS de día, −30 LUFS de noche); pico real bajo −3 dBTP; sin componente DC; filtrado de infrasonidos bajo 20 Hz; frecuencias y ritmos verificados por análisis espectral.</p>
+    <div class="chartBox" id="qcTable"><p class="small muted">Cargando informe…</p></div>
+  </div>
+  <div class="panel">
+    <h2>Qué dice la ciencia</h2>
+    <details open><summary>¿El sonido sube el BDNF?</summary>
+      <p class="small">La estimulación a 40 Hz (sonido o sonido + luz) es la línea más estudiada: en ratones mejora marcadores de salud neuronal y plasticidad, y hay ensayos iniciales en humanos con resultados alentadores pero todavía pequeños. Para pulsos binaurales, los metaanálisis encuentran efectos pequeños en memoria y ansiedad; la medición directa de BDNF en humanos por escucha casi no existe. Por eso esta app mide tu cognición y bienestar, no promete una cifra de BDNF.</p></details>
+    <details><summary>El BDNF en profundidad</summary>
+      <p class="small">El BDNF (factor neurotrófico derivado del cerebro) actúa sobre el receptor TrkB y es clave para la plasticidad sináptica: fortalece las conexiones que guardan un recuerdo (potenciación a largo plazo) y sostiene el nacimiento y la supervivencia de neuronas nuevas en el hipocampo. En el Alzheimer está disminuido en hipocampo y corteza, y en el estudio Framingham, las personas sanas con BDNF en sangre más alto tuvieron menos demencia a 10 años.</p>
+      <p class="small">Pero no es el motor principal del Alzheimer: la enfermedad la impulsan el amiloide, la proteína tau, la inflamación, el daño vascular y factores genéticos como APOE4. El BDNF es un mediador de resiliencia: explica en parte por qué el ejercicio, el sueño y el aprendizaje protegen. Por eso no existe un análisis de BDNF que sirva para diagnosticar ni un suplemento validado que lo suba en el cerebro, y la sangre no refleja bien lo que pasa en el cerebro.</p></details>
+    <details><summary>¿Por qué la sesión nocturna es la más importante?</summary>
+      <p class="small">Durante el sueño profundo se consolida la memoria y se regula la plasticidad. Reforzar las ondas lentas con sonido sincronizado ha mostrado beneficios en laboratorio. Dormir bien es, en sí mismo, uno de los factores que protegen el BDNF.</p></details>
+    <details><summary>Lo que más eleva el BDNF (con mucha evidencia)</summary>
+      <p class="small">Ejercicio aeróbico (el factor más consistente, sobre todo sesiones de 20–40 min a intensidad moderada o alta), sueño suficiente, aprender cosas nuevas, reducir el estrés crónico y exponerse a la luz natural en la mañana. Por eso el registro diario incluye ejercicio, sueño y hábitos (como en el estudio FINGER, donde un programa que combinaba ejercicio, dieta, entrenamiento cognitivo y control vascular mejoró la cognición en adultos mayores en riesgo): combinarlo con las sesiones de sonido es la estrategia más sólida.</p></details>
+    <details><summary>Si hay antecedentes familiares de Alzheimer o demencia</summary>
+      <p class="small">La estimulación a 40 Hz es hoy el campo más activo de estimulación sensorial para Alzheimer: tras los resultados en ratones hay ensayos en personas con deterioro cognitivo leve y Alzheimer inicial, con señales de seguridad buenas y beneficios preliminares, pero todavía no es un tratamiento aprobado. En los ensayos las sesiones eran de 1 hora diaria con luz y sonido; este plan usa solo sonido y 30 minutos, así que es una versión más conservadora. Lo que más protege frente a la demencia según la Comisión Lancet (2024) es controlar factores modificables: pérdida auditiva no tratada (usar audífonos médicos si se necesitan), hipertensión, diabetes, colesterol LDL alto, inactividad física, tabaquismo, aislamiento social, depresión y mal sueño. Si notas olvidos que afectan tu vida diaria, desorientación o cambios de personalidad, consulta a neurología: estas pruebas de la app no sirven para diagnosticar.</p></details>
+    <details><summary>Seguridad</summary>
+      <p class="small">Volumen bajo siempre: la OMS recomienda no pasar del 60% del volumen del teléfono con audífonos (si no puedes conversar sobre el sonido, está alto). No conduzcas ni operes maquinaria durante las sesiones. Consulta a tu médico si tienes epilepsia, tinnitus o implantes auditivos. Suspende si notas dolor de cabeza o molestia.</p></details>
+  </div>`;
+}
+
+/* ---------- Evaluar ---------- */
+function viewEval(){
+  const t=todayStr(), cur=S.tests[t]||{};
+  const hist=Object.entries(S.tests).sort((a,b)=>a[0]<b[0]?1:-1).slice(0,8);
+  return `
+  <h1>Evaluación</h1>
+  <p class="muted">Dos pruebas cortas y objetivas, más un entrenamiento diario opcional. Hazlas a la misma hora del día, sin cansancio extremo, para que los resultados sean comparables.</p>
+  <div class="panel">
+    <div class="sess"><div class="slot" aria-hidden="true">⚡</div><div><div class="t">Tiempo de reacción</div><div class="small muted">Velocidad de procesamiento. 7 intentos; se usa la mediana.</div>${cur.rt?`<div class="small">Hoy: <b>${cur.rt} ms</b></div>`:""}</div><button class="btn" id="tRT">${cur.rt?"Repetir":"Iniciar"}</button></div>
+    <div class="sess"><div class="slot" aria-hidden="true">N</div><div><div class="t">Entrenamiento de memoria (n-back)</div><div class="small muted">Entrenamiento, no prueba: 3 bloques de 1 minuto con dificultad adaptativa. El entrenamiento cognitivo es de las intervenciones que más consistentemente subieron el BDNF en estudios con adultos mayores.</div>${S.train?.hist?.[t]?`<div class="small">Hoy: <b>nivel ${S.train.hist[t].level}</b>, ${S.train.hist[t].acc}% de acierto</div>`:`<div class="small">Nivel actual: ${S.train?.level||1}</div>`}</div><button class="btn" id="tNB">${S.train?.hist?.[t]?"Otra vez":"Entrenar"}</button></div>
+    <div class="sess"><div class="slot" aria-hidden="true">#</div><div><div class="t">Memoria de dígitos</div><div class="small muted">Memoria de trabajo. Recuerda secuencias cada vez más largas.</div>${cur.span?`<div class="small">Hoy: <b>${cur.span} dígitos</b></div>`:""}</div><button class="btn" id="tSpan">${cur.span?"Repetir":"Iniciar"}</button></div>
+  </div>
+  <div class="panel"><h3>Historial</h3>
+    ${hist.length?`<div class="chartBox"><table class="small" style="width:100%;border-collapse:collapse">
+      <tr class="muted"><td>Fecha</td><td>Reacción</td><td>Dígitos</td></tr>
+      ${hist.map(([d,v])=>`<tr style="border-top:1px solid var(--line)"><td style="padding:6px 0">${fmtDate(d)}</td><td>${v.rt?v.rt+" ms":"—"}</td><td>${v.span??"—"}</td></tr>`).join("")}
+    </table></div>`:`<p class="small muted">Aún no hay evaluaciones. Haz la primera ahora para tener tu línea base.</p>`}
+  </div>`;
+}
+
+/* ---- Prueba de reacción ---- */
+function openTest(title,html){ $("tsTitle").textContent=title; $("tsBody").innerHTML=html; $("testSheet").classList.add("open"); }
+function closeTest(){ $("testSheet").classList.remove("open"); clearTimeout(RT.timer); clearTimeout(DS.timer); clearTimeout(NB.timer); NB.cur=null; render(); }
+let NB={timer:0};
+function startNback(){
+  const lvl=S.train?.level||1; NB={lvl,block:0,blocks:3,results:[],timer:0,cur:null,resp:[]};
+  openTest("Entrenamiento n-back",`<p class="small muted">Verás letras una por una. Toca <b>Coincide</b> cuando la letra sea igual a la que apareció <span id="nbDesc">${lvl===1?"justo antes":lvl+" letras atrás"}</span>. Son 3 bloques de un minuto; el nivel sube o baja solo según tu acierto.</p>
+    <div class="testArea" id="nbArea"><div class="digit" id="nbL">Listo</div></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="nbGo">Empezar</button><button class="btn amber" id="nbHit" disabled style="flex:1;padding:16px">Coincide</button></div>
+    <p class="small" id="nbMsg">Nivel ${lvl}</p>`);
+  $("nbGo").onclick=()=>{ $("nbGo").classList.add("hidden"); nbBlock(); };
+  $("nbHit").onclick=()=>{ if(NB.cur!=null && !NB.resp[NB.cur]){ NB.resp[NB.cur]=true; const a=$("nbArea"); a.classList.add("go"); setTimeout(()=>a.classList.remove("go"),150); } };
+}
+function nbBlock(){
+  const n=NB.lvl, len=20+n, letters="BCDFGHJKLMNPRSTVXZ", seq=[];
+  for(let i=0;i<len;i++){ if(i>=n && Math.random()<0.3) seq.push(seq[i-n]); else { let c; do{ c=letters[Math.floor(Math.random()*letters.length)]; }while(i>=n && c===seq[i-n]); seq.push(c); } }
+  NB.seq=seq; NB.resp=new Array(len).fill(false); NB.cur=null; $("nbHit").disabled=false;
+  if($("nbDesc")) $("nbDesc").textContent = n===1?"justo antes":n+" letras atrás";
+  $("nbMsg").textContent=`Nivel ${n} · bloque ${NB.block+1} de ${NB.blocks}`;
+  let i=0;
+  const step=()=>{ if(!$("nbL")) return; if(i>=len){ nbEnd(); return; }
+    NB.cur=i; $("nbL").textContent=seq[i];
+    NB.timer=setTimeout(()=>{ if($("nbL")) $("nbL").textContent=""; NB.timer=setTimeout(()=>{ i++; step(); },2000); },700); };
+  NB.timer=setTimeout(step,800);
+}
+function nbEnd(){
+  const n=NB.lvl, seq=NB.seq; let hit=0,miss=0,fa=0,cr=0;
+  for(let i=n;i<seq.length;i++){ const tgt=seq[i]===seq[i-n]; if(tgt&&NB.resp[i])hit++; else if(tgt)miss++; else if(NB.resp[i])fa++; else cr++; }
+  const acc=Math.round((hit+cr)/(seq.length-n)*100); NB.results.push({lvl:n,acc}); NB.block++; NB.cur=null;
+  let msg=`Bloque ${NB.block}: ${acc}% de acierto (${hit} detectadas, ${miss} perdidas, ${fa} falsas alarmas).`;
+  if(acc>=85 && n<6){ NB.lvl=n+1; msg+=` Subes a nivel ${NB.lvl}.`; } else if(acc<65 && n>1){ NB.lvl=n-1; msg+=` Bajas a nivel ${NB.lvl}.`; }
+  $("nbMsg").textContent=msg; $("nbHit").disabled=true;
+  if(NB.block<NB.blocks){ NB.timer=setTimeout(nbBlock,3500); }
+  else {
+    const best=Math.max(...NB.results.map(r=>r.lvl)), avg=Math.round(NB.results.reduce((a,r)=>a+r.acc,0)/NB.results.length);
+    S.train=S.train||{level:1,hist:{}}; S.train.hist=S.train.hist||{}; S.train.level=NB.lvl; S.train.hist[todayStr()]={level:best,acc:avg}; save();
+    $("nbMsg").textContent=msg+` Guardado: nivel máximo ${best}, acierto medio ${avg}%.`; $("nbL").textContent="✓";
+  }
+}
+let RT={trials:[],state:"idle",timer:0,shownAt:0};
+function startRT(){
+  RT={trials:[],state:"idle",timer:0,shownAt:0};
+  openTest("Tiempo de reacción",`<p class="small muted">Toca el recuadro cuando se vuelva verde. Si tocas antes, ese intento se repite.</p>
+    <div class="testArea" id="rtArea" role="button" tabindex="0"><div><div class="digit" style="font-size:1.6rem" id="rtMsg">Toca para empezar</div><div class="small" id="rtCount">0 de 7</div></div></div>`);
+  const a=$("rtArea"); const hit=e=>{e.preventDefault(); rtTap();};
+  a.addEventListener("pointerdown",hit); a.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter")hit(e);});
+}
+function rtTap(){
+  const a=$("rtArea"), m=$("rtMsg");
+  if(RT.state==="idle"||RT.state==="result"){ RT.state="wait"; a.className="testArea wait"; m.textContent="Espera…";
+    RT.timer=setTimeout(()=>{ RT.state="go"; a.className="testArea go"; m.textContent="¡Ahora!"; RT.shownAt=performance.now(); }, 1200+Math.random()*2800); }
+  else if(RT.state==="wait"){ clearTimeout(RT.timer); RT.state="result"; a.className="testArea"; m.textContent="Muy pronto. Toca para repetir"; }
+  else if(RT.state==="go"){
+    const ms=Math.round(performance.now()-RT.shownAt); RT.trials.push(ms); RT.state="result"; a.className="testArea";
+    $("rtCount").textContent=RT.trials.length+" de 7";
+    if(RT.trials.length>=7){
+      const s=[...RT.trials].sort((x,y)=>x-y), med=s[3];
+      saveTest({rt:med}); RT.state="done";
+      m.textContent=med+" ms"; $("rtCount").textContent="Mediana guardada. Menos es mejor.";
+    } else m.textContent=ms+" ms · toca para seguir";
+  }
+}
+/* ---- Memoria de dígitos ---- */
+let DS={len:3,fails:0,best:0,seq:"",timer:0};
+function startSpan(){
+  DS={len:3,fails:0,best:0,seq:"",timer:0};
+  openTest("Memoria de dígitos",`<p class="small muted">Verás dígitos uno por uno. Luego escríbelos en el mismo orden. Dos errores seguidos en la misma longitud terminan la prueba.</p>
+    <div class="testArea" id="dsArea"><div class="digit" id="dsDigit">Listo</div></div>
+    <div id="dsInput" class="hidden" style="margin-top:12px"><input type="text" inputmode="numeric" id="dsVal" autocomplete="off" aria-label="Escribe los dígitos"><button class="btn" id="dsOk" style="margin-top:10px">Comprobar</button></div>
+    <p class="small" id="dsMsg"></p>
+    <button class="btn" id="dsGo" style="margin-top:8px">Empezar</button>`);
+  $("dsGo").onclick=()=>{ $("dsGo").classList.add("hidden"); dsRound(); };
+  $("dsOk").onclick=dsCheck;
+  $("dsVal").addEventListener("keydown",e=>{ if(e.key==="Enter") dsCheck(); });
+}
+function dsRound(){
+  let s=""; for(let i=0;i<DS.len;i++){ let n; do{ n=Math.floor(Math.random()*10); }while(s.length && +s[s.length-1]===n); s+=n; }
+  DS.seq=s; $("dsInput").classList.add("hidden"); $("dsMsg").textContent="Longitud "+DS.len;
+  let i=0; const el=$("dsDigit");
+  const step=()=>{ if(i<s.length){ el.textContent=s[i]; DS.timer=setTimeout(()=>{ el.textContent=""; DS.timer=setTimeout(step,250); },750); i++; }
+    else { el.textContent="?"; $("dsInput").classList.remove("hidden"); $("dsVal").value=""; $("dsVal").focus(); } };
+  DS.timer=setTimeout(step,600);
+}
+function dsCheck(){
+  const v=($("dsVal").value||"").replace(/\D/g,"");
+  if(v===DS.seq){ DS.best=DS.len; DS.len++; DS.fails=0; $("dsMsg").textContent="Correcto."; setTimeout(dsRound,700); }
+  else { DS.fails++; if(DS.fails>=2){ const score=DS.best||2; saveTest({span:score}); $("dsInput").classList.add("hidden"); $("dsDigit").textContent=score; $("dsMsg").textContent="Tu resultado: "+score+" dígitos. Guardado. Más es mejor."; }
+    else { $("dsMsg").textContent="Era "+DS.seq+". Otro intento con la misma longitud."; setTimeout(dsRound,1200); } }
+}
+function saveTest(o){ const t=todayStr(); S.tests[t]=Object.assign({},S.tests[t]||{},o,{day:currentDay()}); save(); }
+
+/* ---------- Progreso ---------- */
+function linechart(points,{invert=false,unit=""}={}){
+  if(points.length<1) return `<p class="small muted">Sin datos todavía.</p>`;
+  const W=600,H=170,pl=40,pr=12,pt=14,pb=26;
+  const ys=points.map(p=>p.y); let mn=Math.min(...ys), mx=Math.max(...ys); if(mn===mx){mn-=1;mx+=1;}
+  const xs=i=>pl+(points.length===1?0.5:i/(points.length-1))*(W-pl-pr);
+  const yv=v=>pt+(1-(v-mn)/(mx-mn))*(H-pt-pb);
+  const path=points.map((p,i)=>(i?"L":"M")+xs(i).toFixed(1)+" "+yv(p.y).toFixed(1)).join(" ");
+  const col="var(--teal)";
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico de evolución">
+    <line x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}" stroke="var(--line)"/>
+    <text x="4" y="${yv(mx)+4}" font-size="11" fill="var(--muted)">${Math.round(mx)}${unit}</text>
+    <text x="4" y="${yv(mn)+4}" font-size="11" fill="var(--muted)">${Math.round(mn)}${unit}</text>
+    <path d="${path}" fill="none" stroke="${col}" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+    ${points.map((p,i)=>`<circle cx="${xs(i)}" cy="${yv(p.y)}" r="3.5" fill="${col}"/>`).join("")}
+    <text x="${pl}" y="${H-6}" font-size="11" fill="var(--muted)">${esc(points[0].label)}</text>
+    <text x="${W-pr}" y="${H-6}" font-size="11" fill="var(--muted)" text-anchor="end">${esc(points[points.length-1].label)}</text>
+  </svg>`;
+}
+function change(first,last,lowerBetter){ if(first==null||last==null||first===0) return null; const c=(last-first)/first*100; return lowerBetter?-c:c; }
+function fmtChange(c){ if(c==null) return "—"; const s=(c>=0?"+":"")+c.toFixed(0)+"%"; return s; }
+function viewProg(){
+  if(!S.plan) return `<h1>Progreso</h1><p class="muted">Crea tu plan en la pestaña Hoy para empezar a medir.</p>`;
+  const N=S.plan.days, d=Math.min(currentDay(),N);
+  let sched=0, done=0, nightDone=0, nightSched=0;
+  for(let i=1;i<=Math.max(0,d);i++){ const sc=daySchedule(i); sched+=core(sc).length; core(sc).forEach(x=>{ const ok=S.sessions[sKey(i,x.slot)]?.done; if(ok) done++; if(x.slot==="sl"){nightSched++; if(ok) nightDone++;} }); }
+  let streak=0; for(let i=d;i>=1;i--){ const sc=daySchedule(i); if(doneCount(i)>=core(sc).length) streak++; else if(i!==d) break; }
+  const adh=sched?Math.round(done/sched*100):0;
+  const tests=Object.entries(S.tests).sort((a,b)=>a[0]<b[0]?-1:1);
+  const rt=tests.filter(([,v])=>v.rt).map(([k,v])=>({label:fmtDate(k),y:v.rt}));
+  const sp=tests.filter(([,v])=>v.span).map(([k,v])=>({label:fmtDate(k),y:v.span}));
+  const ci=Object.entries(S.checkins).sort((a,b)=>a[0]<b[0]?-1:1);
+  // promedio semanal del bienestar
+  const weeks={};
+  ci.forEach(([k,v])=>{ const w=Math.floor(diffDays(S.plan.startDate,k)/7); (weeks[w]=weeks[w]||[]).push(v); });
+  const avg=(arr,f)=>arr.length?arr.reduce((s,x)=>s+(+x[f]||0),0)/arr.length:null;
+  const wk=Object.keys(weeks).map(Number).sort((a,b)=>a-b);
+  const wb=wk.map(w=>({label:"Sem "+(w+1),y:(avg(weeks[w],"sleep")+avg(weeks[w],"focus")+avg(weeks[w],"memory")+avg(weeks[w],"mood")+avg(weeks[w],"stress"))/5*10}));
+  const exWeek=wk.map(w=>({label:"Sem "+(w+1),y:weeks[w].reduce((s,x)=>s+(+x.exercise||0),0)}));
+  const habWeek=wk.map(w=>({label:"Sem "+(w+1),y:weeks[w].reduce((s,x)=>s+["learn","social","mind","screen","noalc"].filter(f=>x[f]).length+((+x.exercise||0)>=20?1:0)+((+x.sleepHours||0)>=7?1:0),0)/(weeks[w].length*7)*100}));
+  const cRT=change(rt[0]?.y,rt[rt.length-1]?.y,true), cSP=change(sp[0]?.y,sp[sp.length-1]?.y,false), cWB=change(wb[0]?.y,wb[wb.length-1]?.y,false);
+  const parts=[cRT,cSP,cWB].filter(x=>x!=null), idx=parts.length?parts.reduce((a,b)=>a+b,0)/parts.length:null;
+  let verdict="Necesitas al menos dos evaluaciones para calcular la evolución.";
+  if(idx!=null && (rt.length>1||sp.length>1||wb.length>1)){
+    verdict = idx>5 ? "Tus indicadores mejoran respecto a tu línea base." : (idx<-5 ? "Tus indicadores bajaron respecto al inicio. Revisa sueño, estrés y constancia." : "Tus indicadores están estables respecto al inicio.");
+    if(adh<60) verdict+=" Con una adherencia por debajo del 60% es difícil atribuir cambios al plan.";
+  }
+  return `
+  <h1>Progreso</h1>
+  <div class="stats" style="margin-top:14px">
+    <div class="stat"><b>${adh}%</b><span class="small muted">Adherencia (${done} de ${sched})</span></div>
+    <div class="stat"><b>${nightSched?Math.round(nightDone/nightSched*100):0}%</b><span class="small muted">Sesiones nocturnas</span></div>
+    <div class="stat"><b>${streak}</b><span class="small muted">Días completos seguidos</span></div>
+    <div class="stat"><b>${fmtChange(idx)}</b><span class="small muted">Índice de mejora</span></div>
+  </div>
+  <div class="panel"><h3>Lectura</h3><p class="small">${verdict}</p>
+    <p class="small muted">El índice combina reacción (${fmtChange(cRT)}), memoria de dígitos (${fmtChange(cSP)}) y bienestar autoinformado (${fmtChange(cWB)}), comparando tu primera medición con la última.</p></div>
+  <div class="panel"><h3>Tiempo de reacción</h3><p class="small muted">Menos es mejor.</p><div class="chartBox">${linechart(rt,{unit:" ms"})}</div></div>
+  <div class="panel"><h3>Memoria de dígitos</h3><p class="small muted">Más es mejor.</p><div class="chartBox">${linechart(sp)}</div></div>
+  <div class="panel"><h3>Bienestar semanal</h3><p class="small muted">Promedio de sueño, concentración, memoria, ánimo y estrés (0–100).</p><div class="chartBox">${linechart(wb)}</div></div>
+  <div class="panel"><h3>Entrenamiento n-back</h3><p class="small muted">Nivel alcanzado por día. Más es mejor.</p><div class="chartBox">${linechart(Object.entries(S.train?.hist||{}).sort((a,b)=>a[0]<b[0]?-1:1).map(([k,v])=>({label:fmtDate(k),y:v.level})))}</div></div>
+  <div class="panel"><h3>Hábitos cerebrales por semana</h3><p class="small muted">% cumplido de: ejercicio ≥ 20 min, sueño ≥ 7 h, aprendizaje nuevo, contacto social, alimentación MIND, sin alcohol y sin pantallas antes de dormir.</p><div class="chartBox">${linechart(habWeek,{unit:"%"})}</div></div>
+  <div class="panel"><h3>Ejercicio aeróbico por semana</h3><p class="small muted">Minutos. Es el hábito que más eleva el BDNF.</p><div class="chartBox">${linechart(exWeek,{unit:""})}</div></div>
+  <div class="panel"><h3>Datos y respaldo</h3><p class="small muted">Tus datos viven solo en este teléfono. Haz un respaldo cada semana y guárdalo en tu Drive; con él puedes pasar el plan al PC o a otro celular.</p>
+  <div class="row" style="margin-top:10px"><button class="btn ghost" id="exportBtn">Descargar CSV</button><button class="btn ghost" id="backupBtn">Descargar respaldo</button><label class="btn ghost" style="display:inline-block">Restaurar respaldo<input type="file" id="restoreIn" accept="application/json,.json" hidden></label></div>
+  <p class="small" id="exportMsg"></p></div>
+  <p class="sync" id="syncTag"></p>`;
+}
+async function saveFile(name,data,mime){
+  if(NATIVE){ try{ const r=AndroidBridge.saveFile(name,data); alert(r); return true; }catch(e){ return false; } }
+  try{
+    const dl = window.claude?.use ? await window.claude.use("downloads") : null;
+    if(dl){ await dl.save({filename:name,data}); return true; }
+  }catch(e){ if(e?.code==="declined") return false; }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([data],{type:mime})); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); return true;
+}
+async function exportCSV(){
+  const rows=[["tipo","fecha","dia","campo","valor"]];
+  Object.entries(S.sessions).forEach(([k,v])=>{ const [d,slot]=k.split("-"); rows.push(["sesion",S.plan?addDays(S.plan.startDate,+d-1):"",d,slot+":"+v.proto,v.done?"completa":"parcial ("+v.secs+"s)"]); });
+  Object.entries(S.checkins).forEach(([k,v])=>Object.entries(v).forEach(([f,val])=>rows.push(["registro",k,S.plan?diffDays(S.plan.startDate,k)+1:"",f,val])));
+  Object.entries(S.tests).forEach(([k,v])=>Object.entries(v).forEach(([f,val])=>{ if(f!=="day") rows.push(["evaluacion",k,v.day,f,val]); }));
+  Object.entries(S.train?.hist||{}).forEach(([k,v])=>{ rows.push(["entrenamiento",k,"","nivel",v.level]); rows.push(["entrenamiento",k,"","acierto",v.acc]); });
+  const csv="\ufeff"+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  $("exportMsg").textContent = (await saveFile("plan-bdnf-"+todayStr()+".csv",csv,"text/csv")) ? "Archivo descargado." : "Descarga cancelada.";
+}
+async function exportBackup(){ $("exportMsg").textContent = (await saveFile("respaldo-plan-bdnf-"+todayStr()+".json",JSON.stringify(S),"application/json")) ? "Respaldo descargado. Guárdalo en tu Drive." : "Descarga cancelada."; }
+function importBackup(file){
+  const r=new FileReader();
+  r.onload=()=>{ try{ const o=JSON.parse(r.result); if(!o||typeof o!=="object"||!("sessions" in o)) throw 0;
+      if(!confirm("Esto reemplaza los datos de este dispositivo por los del respaldo. ¿Continuar?")) return;
+      S=Object.assign({plan:null,sessions:{},checkins:{},tests:{}},o); save(); render(); alert("Respaldo restaurado."); }
+    catch(e){ alert("El archivo no es un respaldo válido de esta app."); } };
+  r.readAsText(file);
+}
+
+/* ---------- Eventos ---------- */
+function bindCommon(){
+  document.querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>openPlayer(b.dataset.play, +b.dataset.min, b.dataset.day?+b.dataset.day:null, b.dataset.slot||null));
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{ TAB=b.dataset.go; render(); window.scrollTo(0,0); });
+  document.querySelectorAll("[data-ci]").forEach(r=>r.oninput=()=>{ $("ci_"+r.dataset.ci+"_v").textContent=r.value+"/10"; });
+  if($("ciSave")) $("ciSave").onclick=()=>{
+    const o={}; ["sleep","focus","memory","mood","stress"].forEach(f=>o[f]=+$("ci_"+f).value);
+    o.exercise=Math.max(0,+$("ci_ex").value||0); o.sleepHours=$("ci_sh").value===""?null:+$("ci_sh").value; ["learn","social","mind","screen","noalc"].forEach(f=>o[f]=$("ci_"+f).checked); o.note=$("ci_note").value.slice(0,500);
+    S.checkins[todayStr()]=o; save(); $("ciMsg").textContent="Registro de hoy guardado.";
+  };
+  document.querySelectorAll("[data-dayinfo]").forEach(b=>b.onclick=()=>{ $("dayDetail").innerHTML=dayDetail(+b.dataset.dayinfo); bindPlayOnly(); });
+  if($("sSave")) $("sSave").onclick=()=>{
+    Object.assign(S.plan,{exTime:$("sExT").value,remind:$("sRem").checked,bedTime:$("sBed").value,preTime:preFrom($("sBed").value||"21:30"),dayMin:+$("sDayMin").value,optSMR:$("sSMR").checked,optTheta4:$("sT4").checked,smrTime:$("sSmrT").value,amTime:$("sAm").value,pmTime:$("sPm").value,sleepMin:+$("sSleep").value,headphones:$("sPhones").checked,days:Math.max(14,Math.min(365,+$("sDays").value||S.plan.days))});
+    save(); render();
+  };
+  if($("sReset")) $("sReset").onclick=()=>{ if(confirm("¿Borrar el plan actual y su historial de sesiones? Tus registros y evaluaciones se conservan.")){ S.plan=null; S.sessions={}; save(); TAB="hoy"; render(); } };
+  if($("newPlan")) $("newPlan").onclick=()=>{ S.plan=null; S.sessions={}; save(); render(); };
+  if($("tRT")) $("tRT").onclick=startRT;
+  if($("tSpan")) $("tSpan").onclick=startSpan;
+  if($("tNB")) $("tNB").onclick=startNback;
+  if($("exportBtn")) $("exportBtn").onclick=exportCSV;
+  if($("backupBtn")) $("backupBtn").onclick=exportBackup;
+  if($("restoreIn")) $("restoreIn").onchange=e=>{ if(e.target.files[0]) importBackup(e.target.files[0]); };
+  if($("installBtn")) $("installBtn").onclick=async()=>{ if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; render(); };
+}
+function bindPlayOnly(){ document.querySelectorAll("#dayDetail [data-play]").forEach(b=>b.onclick=()=>openPlayer(b.dataset.play,+b.dataset.min,+b.dataset.day,b.dataset.slot)); }
+
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ TAB=b.dataset.tab; render(); window.scrollTo(0,0); });
+$("plPlay").onclick=togglePlay;
+$("plStop").onclick=()=>stopPlayer(true);
+$("plClose").onclick=()=>{ if(PL.playing && !confirm("La sesión está sonando. ¿Detenerla y cerrar?")) return; stopPlayer(false); $("sheet").classList.remove("open"); };
+$("plVol").oninput=e=>{ PL.baseVol=+e.target.value; audio.volume=PL.baseVol; if(NATIVE){ try{AndroidBridge.setVolume(PL.baseVol);}catch(err){} } if(S.plan){ const night=PL.slot==="sl"||PL.slot==="oy"||PROTOCOLS[PL.proto]?.band.includes("sueño"); S.plan[night?"nightVol":"dayVol"]=PL.baseVol; } };
+$("plVol").onchange=()=>{ if(S.plan) save(); };
+$("tsClose").onclick=closeTest;
+window.addEventListener("resize",()=>{ if(TAB==="hoy") drawHeroWave(); });
+
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; if(TAB==="hoy") render(); });
+async function loadQC(){
+  const box=$("qcTable"); if(!box) return;
+  try{ const r=await fetch("audio/calidad.json"); const q=await r.json();
+    box.innerHTML=`<table class="small" style="width:100%;border-collapse:collapse;min-width:520px"><tr class="muted"><td>Pista</td><td>Canales</td><td>Frecuencias</td><td>Ritmo</td><td>LUFS</td><td>Pico</td><td>Verificada</td></tr>`+
+      Object.entries(q).map(([k,v])=>`<tr style="border-top:1px solid var(--line)"><td style="padding:6px 4px 6px 0">${esc(k.replace(/_/g," "))}</td><td>${v.canales===2?"Estéreo":"Mono"}</td><td>${k.includes("ondas")?"ruido rosa":v.frecuencias_pico_hz.join(" / ")+" Hz"}</td><td>${v.ritmo_medido_hz??"—"}${v.ritmo_medido_hz!=null?" Hz":""}</td><td>${v.lufs}</td><td>${v.pico_real_dbtp} dBTP</td><td>${v.verificacion_bit_a_bit?"✓":"✗"}</td></tr>`).join("")+`</table>`;
+  }catch(e){ box.innerHTML=`<p class="small muted">El informe de calidad está en audio/calidad.json.</p>`; }
+}
+const _render=render; render=function(){ _render(); if(TAB==="lib") loadQC(); };
+if(!NATIVE && "serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+if(navigator.storage?.persist) navigator.storage.persist().catch(()=>{});
+function syncReminders(){
+  if(!NATIVE) return;
+  const P=S.plan; let r=[];
+  if(P && P.remind!==false){
+    r=[{id:1,t:P.amTime,title:"Sesión de mañana",text:"40 Hz antes de salir. Siéntate tranquilo 15 minutos."},
+       {id:2,t:P.exTime||"17:15",title:"Hora de moverte",text:"Ejercicio aeróbico: lo que más eleva el BDNF."},
+       {id:3,t:P.pmTime,title:"Sesión de tarde",text:"Después del ejercicio, con audífonos."},
+       {id:4,t:P.bedTime||"21:30",title:"Sesión al dormir",text:"La más importante del día. Volumen muy bajo."}];
+    if(P.optSMR) r.push({id:5,t:P.smrTime||"12:15",title:"SMR 13 Hz (opcional)",text:"Pausa de enfoque de 15 minutos."});
+    if(P.optTheta4) r.push({id:6,t:P.preTime||"21:00",title:"Theta 4 Hz (opcional)",text:"Relajación antes de acostarte."});
+  }
+  try{ AndroidBridge.setReminders(JSON.stringify(r.filter(x=>x.t).map(x=>({id:x.id,h:+x.t.split(":")[0],m:+x.t.split(":")[1],title:x.title,text:x.text})))); }catch(e){}
+}
+const _save=save; save=function(){ _save(); syncReminders(); };
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden && NATIVE){ processNativeDone(); if(TAB==="hoy") render(); } });
+loadLocal(); render(); initCloud(); if(NATIVE){ processNativeDone(); syncReminders(); }
+</script>
+</body>
+</html>
