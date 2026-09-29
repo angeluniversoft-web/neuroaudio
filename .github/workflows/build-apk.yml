@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Descomprimir proyecto
+        run: |
+          test -f proyecto-apk.zip || { echo "Falta proyecto-apk.zip en la raiz del repositorio"; exit 1; }
+          rm -rf build-src && mkdir build-src
+          unzip -q proyecto-apk.zip -d build-src
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -23,10 +29,11 @@ jobs:
           gradle-version: '8.7'
 
       - name: Compilar APK
+        working-directory: build-src
         run: gradle assembleRelease --no-daemon --stacktrace
 
-      - name: Renombrar
-        run: cp app/build/outputs/apk/release/app-release.apk NeuroAudio.apk
+      - name: Preparar APK
+        run: cp build-src/app/build/outputs/apk/release/app-release.apk NeuroAudio.apk
 
       - name: Guardar como artefacto
         uses: actions/upload-artifact@v4
