@@ -3,7 +3,7 @@ name: Publicar app web (iPhone y PC)
 on:
   push:
     paths:
-      - 'web-app.zip'
+      - 'web-app*.zip'
       - '.github/workflows/publish-web.yml'
   workflow_dispatch:
 
@@ -27,9 +27,12 @@ jobs:
 
       - name: Descomprimir app web
         run: |
-          test -f web-app.zip || { echo "Falta web-app.zip en la raiz del repositorio"; exit 1; }
+          echo "Archivos en la raiz:"; ls -la
+          Z=$(ls -1 web-app*.zip 2>/dev/null | head -n 1)
+          if [ -z "$Z" ]; then echo "ERROR: no encuentro web-app.zip en la raiz del repositorio"; exit 1; fi
+          echo "Usando $Z"; cp "$Z" /tmp/proyecto.zip
           rm -rf site && mkdir site
-          unzip -q web-app.zip -d site
+          unzip -q /tmp/proyecto.zip -d site
 
       - name: Generar pista nocturna larga para iPhone (60 min, termina sola)
         run: |
@@ -39,7 +42,10 @@ jobs:
             site/audio/ondas_lentas_noche_60.m4a
           ls -la site/audio
 
-      - uses: actions/configure-pages@v5
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
