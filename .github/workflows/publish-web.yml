@@ -1,0 +1,49 @@
+name: Publicar app web (iPhone y PC)
+
+on:
+  push:
+    paths:
+      - 'web-app.zip'
+      - '.github/workflows/publish-web.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Descomprimir app web
+        run: |
+          test -f web-app.zip || { echo "Falta web-app.zip en la raiz del repositorio"; exit 1; }
+          rm -rf site && mkdir site
+          unzip -q web-app.zip -d site
+
+      - name: Generar pista nocturna larga para iPhone (60 min, termina sola)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          ffmpeg -v error -y -stream_loop -1 -i site/audio/ondas_lentas_noche.flac -t 3600 \
+            -af "afade=t=out:st=3480:d=120" -ac 1 -ar 48000 -c:a aac -b:a 64k -movflags +faststart \
+            site/audio/ondas_lentas_noche_60.m4a
+          ls -la site/audio
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

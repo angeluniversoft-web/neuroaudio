@@ -1,0 +1,54 @@
+name: Construir iPhone (IPA)
+
+on:
+  push:
+    paths:
+      - 'ios-proyecto.zip'
+      - '.github/workflows/build-ios.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Descomprimir proyecto
+        run: |
+          test -f ios-proyecto.zip || { echo "Falta ios-proyecto.zip en la raiz del repositorio"; exit 1; }
+          rm -rf ios-src && mkdir ios-src
+          unzip -q ios-proyecto.zip -d ios-src
+
+      - name: Instalar XcodeGen
+        run: brew install xcodegen
+
+      - name: Generar proyecto Xcode
+        working-directory: ios-src
+        run: xcodegen generate
+
+      - name: Compilar (sin firma; se firma al instalar)
+        working-directory: ios-src
+        run: |
+          xcodebuild -project NeuroAudio.xcodeproj -target NeuroAudio -configuration Release -sdk iphoneos \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" build
+
+      - name: Empaquetar IPA
+        run: |
+          rm -rf Payload && mkdir Payload
+          cp -R ios-src/build/Release-iphoneos/NeuroAudio.app Payload/
+          zip -qr NeuroAudio.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NeuroAudio-ipa
+          path: NeuroAudio.ipa
+
+      - name: Publicar descarga (Releases)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ios-v${{ github.run_number }}
+          name: iPhone · Neuro-Audio v${{ github.run_number }}
+          files: NeuroAudio.ipa
